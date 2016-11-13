@@ -16,7 +16,7 @@
 
 Route::any('/', 'AppController@index')->name('home');
 
-Route::any('/login', 'AppController@login')->name('profile');
+Route::any('/login', 'AppController@login')->name('login');
 
 
 Route::get('/sync', 'AppController@sync')->name('sync');

@@ -29,7 +29,7 @@ class Activity extends Model
             'moving_time' => $stravaActivity->moving_time,
             'elapsed_time' => $stravaActivity->elapsed_time,
             'elevation' => $stravaActivity->total_elevation_gain,
-            'strava_activity' => json_encode($stravaActivity),
+            'strava_activity_raw' => json_encode($stravaActivity),
         ]);
 
         return $activity;
