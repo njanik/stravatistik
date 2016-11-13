@@ -13,39 +13,25 @@
 
 
 
-Route::any('/login', function () {
 
-    $api = new Iamstuartwilson\StravaApi(
-        config('app.stravatistik.client_id'),
-        config('app.stravatistik.client_secret')
-    );
+Route::any('/', 'AppController@index')->name('home');
 
-    if(request()->input('code'))
-    {
-        $obj = $api->tokenExchange(request()->input('code'));
-        $token = $obj->access_token;
-        session(['strava_token' => $token]);
-        $api->setAccessToken($token);
+Route::any('/login', 'AppController@login')->name('profile');
 
 
+Route::get('/sync', 'AppController@sync')->name('sync');
 
-        $foo = $api->get('athlete/activities');
-        dd($foo);
+//
+// Route::get('/sync', function () {
+//     echo 'sync';
 
-    }else{
-
-        $url = $api->authenticationUrl(request()->fullUrl(), $approvalPrompt = 'auto', $scope = null, $state = null);
-        echo '<a href="'.$url.'">STRAVA LOGIN</a>';
-
-    }
-
-
-});
-
-
-
-Route::get('/sync', function () {
-    echo 'syyyyync';
+    // $res = \App\StravaActivity::getList();
+    // dump($res);
+    //
+    // $stravaActivity = \App\StravaActivity::getFromId(771523953);
+    //
+    // $activity = \App\Activity::fromStravaActivity($stravaActivity);
+    // dump($activity);
 
 
     // list all activities since LAST_SYNC_ACTIVITY
@@ -53,4 +39,4 @@ Route::get('/sync', function () {
     //  foreach
 
     //return view('synch');
-});
+// });
