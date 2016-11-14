@@ -34,24 +34,19 @@ class StravaActivity
 
         for($i=0; $i<$foo; $i++){
             $totalTime = 0;
-            for($splitIndex = $i; $splitIndex<$distance+$i; $splitIndex++){
+            for($splitIndex = $i; $splitIndex < $distance+$i; $splitIndex++){
                 $split = $splits->get($splitIndex);
                 $totalTime += $split->elapsed_time;
             }
             $times[] = $totalTime;
         }
 
-        foreach($times as $sec){
-            dump(timeFromSec($sec));
-        }
+        // foreach($times as $sec){
+        //     dump(timeFromSec($sec));
+        // }
 
         sort($times);
         return array_shift($times);
-
-
-
-
-
     }
 
 

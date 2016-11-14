@@ -24,16 +24,25 @@ Route::get('/sync', 'AppController@sync')->name('sync');
 
 Route::get('/test', function(){
 
-    $stravaId = \App\Activity::lastestFirst()->first()->strava_id;
-    $stravaActivity = \App\StravaActivity::fromStravaId($stravaId);
-    dump(timeFromSec($stravaActivity->getBestTimeForDistance(4)));
-    dump($stravaActivity->getSplits());
-    dd($stravaActivity->get1kSplits());
 
-    foreach(\App\StravaActivityList::get() as $activity){
-        //dd(($activity->start_date_local));
-        dd(carbon($activity->start_date_local)->toDateTimeString());
-    }
+    $groups = \App\Activity::sums()
+        ->groupMonth()
+        ->get()
+        ->pluck('total_distance', 'group_date');
+
+    //dd($groups);
+
+    $chart = Charts::create('bar', 'highcharts')
+        //->setView('custom.line.chart.view') // Use this if you want to use your own template
+        ->setTitle('My nice chart')
+        ->setLabels($groups->keys())
+        ->setValues($groups->values())
+        //->setDimensions(1000,500)
+        ->setResponsive(false);
+    return view('test', ['chart' => $chart]);
+    //dump($groups);
+
+
 });
 //
 // Route::get('/sync', function () {

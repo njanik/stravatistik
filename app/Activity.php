@@ -19,9 +19,49 @@ class Activity extends Model
 
 
     public function scopeLastestFirst($query)
-   {
+    {
        return $query->orderBy('date', 'DESC');
-   }
+    }
+
+
+    public function scopeSums($query)
+    {
+        return $query
+            ->select(\DB::raw('sum(distance) AS total_distance'));
+    }
+
+    public function scopeExtractDate($query)
+    {
+        return $query->addSelect([
+            \DB::raw('DATE_FORMAT(date, "%Y-%u") as week'),
+            // \DB::raw('DATE_FORMAT(date, "%Y-%m") as yyyymm'),
+            // \DB::raw('DATE_FORMAT(date, "%Y-%m") as yyyymm'),
+
+        ]);
+    }
+
+    public function scopeGroupMonth($query)
+    {
+
+
+        return $query
+            ->addSelect(\DB::raw('DATE_FORMAT(date, "%Y-%m") as group_date'))
+            ->groupBy(\DB::raw('DATE_FORMAT(date, "%Y-%m")'));
+    }
+
+    public function scopeGroupWeek($query)
+    {
+        return $query
+            ->addSelect(\DB::raw('DATE_FORMAT(date, "%Y-%u") as week'))
+            ->groupBy('week');
+    }
+
+
+
+    public function scope10k($query)
+    {
+       return $query->where('distance', 'DESC');
+    }
 
 
     public static function fromStravaActivity(StravaActivity $stravaActivity)
