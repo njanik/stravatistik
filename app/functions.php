@@ -2,6 +2,17 @@
 
 
 
+function carbon($dateString){
+    return new \Carbon\Carbon($dateString);
+}
+
+
+function timeFromSec($seconds){
+    return gmdate('i:s', $seconds);
+}
+
+
+
 
 /**
  * Class casting

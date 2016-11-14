@@ -11,7 +11,7 @@ class StravaActivityList
 {
 
     public static function get($page = 1){
-        return StravaApi::send('athlete/activities', ['per_page' => 10, 'page' => $page]);
+        return StravaApi::send('athlete/activities', ['per_page' => 20, 'page' => $page]);
     }
 
 

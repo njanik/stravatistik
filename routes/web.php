@@ -21,6 +21,20 @@ Route::any('/login', 'AppController@login')->name('login');
 
 Route::get('/sync', 'AppController@sync')->name('sync');
 
+
+Route::get('/test', function(){
+
+    $stravaId = \App\Activity::lastestFirst()->first()->strava_id;
+    $stravaActivity = \App\StravaActivity::fromStravaId($stravaId);
+    dump(timeFromSec($stravaActivity->getBestTimeForDistance(4)));
+    dump($stravaActivity->getSplits());
+    dd($stravaActivity->get1kSplits());
+
+    foreach(\App\StravaActivityList::get() as $activity){
+        //dd(($activity->start_date_local));
+        dd(carbon($activity->start_date_local)->toDateTimeString());
+    }
+});
 //
 // Route::get('/sync', function () {
 //     echo 'sync';

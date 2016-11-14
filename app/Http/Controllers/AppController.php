@@ -22,7 +22,13 @@ class AppController extends Controller
 
         $res = StravaActivityList::get();
 
+        //dd($res);
+
         foreach($res as $summaryActivity){
+
+            if($summaryActivity->type != 'Run' || Activity::exist($summaryActivity->id)){
+                continue;
+            }
 
             $stravaId = $summaryActivity->id;
             $stravaActivity = StravaActivity::fromStravaId($stravaId);
