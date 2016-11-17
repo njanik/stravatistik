@@ -40,10 +40,21 @@ class Activity extends Model
         ]);
     }
 
+    public function scopeCurrentYear($query)
+    {
+        return $query
+            ->whereYear('date', carbon()->now()->year);
+    }
+
+    public function scopeGroupDay($query)
+    {
+        return $query
+            ->addSelect(\DB::raw('DATE_FORMAT(date, "%Y-%m-%d") as group_date'))
+            ->groupBy(\DB::raw('DATE_FORMAT(date, "%Y-%m-%d")'));
+    }
+
     public function scopeGroupMonth($query)
     {
-
-
         return $query
             ->addSelect(\DB::raw('DATE_FORMAT(date, "%Y-%m") as group_date'))
             ->groupBy(\DB::raw('DATE_FORMAT(date, "%Y-%m")'));

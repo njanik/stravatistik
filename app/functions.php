@@ -2,7 +2,38 @@
 
 
 
-function carbon($dateString){
+function getCompleteYear($type, $year = null){
+
+    if(is_null($year)){
+        $year = carbon()->now()->year;
+    }
+
+    $date = new \Carbon\Carbon('first day of january '.$year);
+    $lastDayOfYear = new \Carbon\Carbon('last day of december '.$year);
+
+    $range = collect([]);
+
+    while($date->lte($lastDayOfYear)){
+
+        $range->push([
+            'group_date' => $date->toDateString(),
+            'total_distance' => 0
+        ]);
+
+        $date->addDay();
+
+    }
+
+    return $range;
+
+
+}
+
+
+function carbon($dateString = null){
+    if(is_null($dateString)){
+        return new \Carbon\Carbon();
+    }
     return new \Carbon\Carbon($dateString);
 }
 
